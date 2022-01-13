@@ -108,24 +108,46 @@ function App() {
     brother: true,
   };
 
+  // T extends X ? Y:Z
+  // TがXのときはYが返る、そうでないときはZが返る
   type FunctionPropertyNames<T> = {
     [K in keyof T]: T[K] extends Function ? K : never;
   }[keyof T];
   type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
+  
   type NonFunctionPropertyNames<T> = {
     [K in keyof T]: T[K] extends Function ? never : K;
   }[keyof T];
   type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
+  type afswe<T> = {
+    [K in keyof T]: T[K] 
+  }
+
   interface Part {
     id: number;
     name: string;
     subparts: Part[];
     updatePart(): void;
   }
-  type T40 = FunctionPropertyNames<Part>; // "updatePart"
-  type T41 = NonFunctionPropertyNames<Part>; // "id" | "name" | "subparts"
-  type T42 = FunctionProperties<Part>; // { updatePart(newName: string): void }
-  type T43 = NonFunctionProperties<Part>; // { id: number, name: string, subparts: Part[] }
+  type FPN = FunctionPropertyNames<Part>; // "updatePart"
+  type NPN = NonFunctionPropertyNames<Part>; // "id" | "name" | "subparts"
+  type ONP = Pick<Part, "updatePart">
+  type FPS = FunctionProperties<Part>; // { updatePart(newName: string): void }
+  type NPS = NonFunctionProperties<Part>; // { id: number, name: string, subparts: Part[] }
+
+  
+  // neverは代入することができず値が存在しない
+  // 値が存在しないのはvoidも同じだが、voidの場合undefinedは代入できる
+  // https://typescriptbook.jp/reference/statements/never
+  const v: never = 0
+  const n: any = 1;
+  const e: never = n;
+  function func():never {
+    return
+  }
+  function func2():void {
+    return
+  }
 
   return (
     <div className="App">

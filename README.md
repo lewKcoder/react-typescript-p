@@ -10,3 +10,10 @@ Reference sites ↓<br>
 
 - 【TypeScript】Utility Types をまとめて理解する
   https://qiita.com/k-penguin-sato/items/e2791d7a57e96f6144e5
+
+- サバイバルTypeScript
+https://typescriptbook.jp
+
+- サバイバルTypeScript TypeScript解読アシスタント
+https://typescriptbook.jp/code-reading-assistant
+
