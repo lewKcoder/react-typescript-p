@@ -114,14 +114,14 @@ function App() {
     [K in keyof T]: T[K] extends Function ? K : never;
   }[keyof T];
   type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
-  
+
   type NonFunctionPropertyNames<T> = {
     [K in keyof T]: T[K] extends Function ? never : K;
   }[keyof T];
   type NonFunctionProperties<T> = Pick<T, NonFunctionPropertyNames<T>>;
   type afswe<T> = {
-    [K in keyof T]: T[K] 
-  }
+    [K in keyof T]: T[K];
+  };
 
   interface Part {
     id: number;
@@ -131,23 +131,165 @@ function App() {
   }
   type FPN = FunctionPropertyNames<Part>; // "updatePart"
   type NPN = NonFunctionPropertyNames<Part>; // "id" | "name" | "subparts"
-  type ONP = Pick<Part, "updatePart">
+  type ONP = Pick<Part, 'updatePart'>;
   type FPS = FunctionProperties<Part>; // { updatePart(newName: string): void }
   type NPS = NonFunctionProperties<Part>; // { id: number, name: string, subparts: Part[] }
 
-  
   // neverは代入することができず値が存在しない
   // 値が存在しないのはvoidも同じだが、voidの場合undefinedは代入できる
   // https://typescriptbook.jp/reference/statements/never
-  const v: never = 0
+  const v: never = 0;
   const n: any = 1;
   const e: never = n;
-  function func():never {
-    return
+  function func(): never {
+    return;
   }
-  function func2():void {
-    return
+  function func2(): void {
+    return;
   }
+
+  interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+  }
+
+  type CustomPick<T, K extends keyof T> = {
+    [P in K]: T[P];
+  };
+
+  type Foo = CustomPick<Todo, 'title'>;
+
+  type AA = {
+    title: string;
+    name: number;
+    flag: boolean;
+  };
+
+  type K = keyof AA;
+  // K = "title" | "name"
+
+  type KK = {
+    readonly name: number;
+  };
+
+  const kk: KK = '1234';
+
+  interface Todo {
+    title: string;
+    description: string;
+    completed: boolean;
+    meta: {
+      author: string;
+    };
+  }
+
+  type MyReadonly<T> = {
+    readonly [K in keyof T]: T[K];
+  };
+  const todo: MyReadonly<Todo> = {
+    title: 'fwfhwi',
+    description: 'fwfhwi',
+    completed: false,
+    meta: {
+      author: 'fwfhwi',
+    },
+  };
+
+  todo.title = 'wjofie';
+
+  type ToAllString<T> = {
+    [P in keyof T]: string;
+  };
+
+  type AllNumber = {
+    hoge: number;
+    fuga: number;
+    piyo: number;
+  };
+  const toString: ToAllString<AllNumber> = {
+    hoge: '21',
+    fuga: '89',
+    piyo: 'hoi',
+  };
+  toString.hoge = 12345;
+
+  type MappedOptionalA<T> = {
+    [P in keyof T]-?: T[P];
+  };
+
+  type MaybeUser = {
+    id: string;
+    name?: string;
+    age?: number;
+  };
+
+  type UserA = MappedOptionalA<MaybeUser>;
+  // type User = {
+  //   id: string;
+  //   name: string;
+  //   age: number;
+  // }
+
+  const UserB: { [P in keyof MaybeUser]-?: MaybeUser[P] } = {
+    age: 12345,
+  };
+
+  const UserC: { readonly [P in keyof MaybeUser]: MaybeUser[P] } = {
+    id: '123123',
+    name: '1234',
+    age: 13243,
+  };
+  UserC.id = '131124';
+
+  type TupleToObject<T extends readonly any[]> = {
+    [P in T[number]]: P;
+  };
+  const tuple = ['tesla', 'model 3', 'model X', 'model Y'] as const;
+  type result = TupleToObject<typeof tuple>;
+
+  type First<T extends any[]> = T['length'] extends 0 ? never : T[0];
+
+  type arr = First<['a', 'b', 'c']>;
+
+  type MyExclude<T, U> = T extends U ? never : T;
+  type IsA = MyExclude<'a' | 'b' | 'c', 'a'>;
+  type IsAA = Exclude<'a' | 'b' | 'c', 'a'>;
+
+  interface PersonA {
+    firstName: string;
+    lastName: string;
+    age: number;
+  }
+  type PersonA2 = Partial<PersonA>;
+  const Taro: Partial<PersonA> = {
+    age: 22,
+  };
+  type PersonA3 = Partial<PersonA> & { from: string };
+  const brian: PersonA3 = {
+    from: 'Tokyo',
+  };
+
+  interface PersonB {
+    firstName?: string;
+    lastName?: string;
+  }
+
+  const foef: Required<PersonB> = {
+    firstName: 'hwfjeoi',
+  };
+  type deleteOptional<T> = {
+    [K in keyof T]-?: T[K];
+  };
+  const foerj: deleteOptional<PersonB> = {
+    firstName: 'hfwihef',
+  };
+
+  interface PersonC {
+    name: string;
+  }
+  type PersonList = Record<number, PersonC>;
+  const list: PersonList = { 0: { name: 'Taro' }, 1: { name: 'Jiro' } };
 
   return (
     <div className="App">
