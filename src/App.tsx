@@ -1,6 +1,22 @@
 import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { link } from "fs";
+
+type linkType = [
+  {
+    path: string;
+    link: string;
+  }
+];
+
+const linkList: linkType = [
+  {
+    path: "/",
+    link: "hoge",
+  },
+];
 
 function App() {
   // interfaceとtypeの違いについて
@@ -138,12 +154,13 @@ function App() {
   // neverは代入することができず値が存在しない
   // 値が存在しないのはvoidも同じだが、voidの場合undefinedは代入できる
   // https://typescriptbook.jp/reference/statements/never
-  const v: never = 0;
+  // const v: never = 0; 'v' is declared but its value is never read.
   const n: any = 1;
-  const e: never = n;
-  function func(): never {
-    return;
-  }
+  // const e: never = n; 'v' is declared but its value is never read.
+  // function func(): never {
+  //   return;
+  // }
+  // (local function) func(): never' func' is declared but its value is never read.
   function func2(): void {
     return;
   }
@@ -173,8 +190,6 @@ function App() {
     readonly name: number;
   };
 
-  const kk: KK = "1234";
-
   interface Todo {
     title: string;
     description: string;
@@ -196,7 +211,7 @@ function App() {
     },
   };
 
-  todo.title = "wjofie";
+  console.log(todo.title);
 
   type ToAllString<T> = {
     [P in keyof T]: string;
@@ -212,7 +227,7 @@ function App() {
     fuga: "89",
     piyo: "hoi",
   };
-  toString.hoge = 12345;
+  toString.hoge = "12345";
 
   type MappedOptionalA<T> = {
     [P in keyof T]-?: T[P];
@@ -232,6 +247,8 @@ function App() {
   // }
 
   const UserB: { [P in keyof MaybeUser]-?: MaybeUser[P] } = {
+    id: "1124",
+    name: "jweofiew",
     age: 12345,
   };
 
@@ -240,7 +257,6 @@ function App() {
     name: "1234",
     age: 13243,
   };
-  UserC.id = "131124";
 
   type TupleToObject<T extends readonly any[]> = {
     [P in T[number]]: P;
@@ -277,12 +293,14 @@ function App() {
 
   const foef: Required<PersonB> = {
     firstName: "hwfjeoi",
+    lastName: "fjwoeifw",
   };
   type deleteOptional<T> = {
     [K in keyof T]-?: T[K];
   };
   const foerj: deleteOptional<PersonB> = {
     firstName: "hfwihef",
+    lastName: "hishfiew",
   };
 
   interface PersonC {
@@ -341,23 +359,29 @@ function App() {
   type ExtractedType4 = Extract<string | number | boolean, string | boolean>;
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <main className="App">
+      <div className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Top />} />
+          </Routes>
+        </BrowserRouter>
+      </div>
+    </main>
   );
 }
 
 export default App;
+
+const Top = () => {
+  return (
+    <div className="text-gray-400">
+      {linkList.map((item) => {
+        // console.log(item.path);
+        // console.log(item.link);
+        <Link to={item.path}>{item.link}</Link>;
+      })}
+    </div>
+  );
+};
