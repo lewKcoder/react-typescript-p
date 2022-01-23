@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./MarubatsuGame.module.scss";
 import Row from "./Row";
 
@@ -14,9 +14,23 @@ const numbers: BoardNumbersType = [
 ];
 
 const MarubatsuGame: React.FC = () => {
-  const number = numbers.map((c) => <Row column={c} />);
+  const [status, setStatus] = useState(false);
+  const [user, setUser] = useState(true);
 
-  return <div className={styles.bord}>{number}</div>;
+  const onClickHandler = () => {
+    setUser((prev) => !prev);
+  };
+
+  const number = numbers.map((c) => (
+    <Row column={c} onClickHandler={onClickHandler} />
+  ));
+
+  return (
+    <>
+      <h3>{user ? <p>Player 1</p> : <p>Player 2</p>}</h3>
+      <div className={styles.bord}>{number}</div>
+    </>
+  );
 };
 
 export default MarubatsuGame;
