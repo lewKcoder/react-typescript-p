@@ -1,20 +1,22 @@
 import React from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import styles from "./App.module.scss";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import { link } from "fs";
+import Header from "./components/Header/Header";
+import MarubatsuGame from "./components/MarubatsuGame/MarubatsuGame";
 
 type linkType = [
   {
     path: string;
     link: string;
-  }
+  },
+  ...{ path: string; link: string }[]
 ];
 
 const linkList: linkType = [
   {
-    path: "/",
-    link: "hoge",
+    path: "/marubatsu-game",
+    link: "MarubatsuGame",
   },
 ];
 
@@ -359,15 +361,14 @@ function App() {
   type ExtractedType4 = Extract<string | number | boolean, string | boolean>;
 
   return (
-    <main className="App">
-      <div className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Top />} />
-          </Routes>
-        </BrowserRouter>
-      </div>
+    <main className={styles.App}>
+      <BrowserRouter>
+        <Header />
+        <Routes>
+          <Route path="/" element={<Top />} />
+          <Route path="marubatsu-game" element={<MarubatsuGame />} />
+        </Routes>
+      </BrowserRouter>
     </main>
   );
 }
@@ -375,13 +376,14 @@ function App() {
 export default App;
 
 const Top = () => {
-  return (
-    <div className="text-gray-400">
-      {linkList.map((item) => {
-        // console.log(item.path);
-        // console.log(item.link);
-        <Link to={item.path}>{item.link}</Link>;
-      })}
+  const link = linkList.map(({ path, link }) => (
+    <div className={styles.App_header}>
+      <img src={logo} className={styles.App_logo} alt="logo" />
+      <Link className={styles.App_link} to={path}>
+        {link}
+      </Link>
     </div>
-  );
+  ));
+
+  return <div>{link}</div>;
 };
