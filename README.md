@@ -28,3 +28,6 @@ https://zenn.dev/qnighy/articles/dde3d980b5e386
 
 - Indexed Access Types<br>
 https://www.typescriptlang.org/docs/handbook/2/indexed-access-types.html
+
+- 【TypeScript】Reactのコンポーネントに値を渡すとIntrinsicAttributesに代入できないと怒られる
+https://teratail.com/questions/276695
