@@ -1,22 +1,19 @@
-import React from "react";
-import logo from "./logo.svg";
-import styles from "./App.module.scss";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
-import Header from "./components/Header/Header";
-import MarubatsuGame from "./components/MarubatsuGame/MarubatsuGame";
+import React from 'react';
+import logo from './logo.svg';
+import styles from './App.module.scss';
+import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import Header from './components/Header/Header';
+import MarubatsuGame from './components/MarubatsuGame/MarubatsuGame';
 
-type linkType = [
-  {
-    path: string;
-    link: string;
-  },
-  ...{ path: string; link: string }[]
-];
+type linkType = {
+  path: string;
+  link: string;
+};
 
-const linkList: linkType = [
+const linkList: linkType[] = [
   {
-    path: "/marubatsu-game",
-    link: "MarubatsuGame",
+    path: '/marubatsu-game',
+    link: 'MarubatsuGame',
   },
 ];
 
@@ -34,7 +31,7 @@ function App() {
     count: number;
   }
   const myOrder: Order = {
-    menu: "唐揚げ",
+    menu: '唐揚げ',
     count: 2,
   };
   // type
@@ -48,7 +45,7 @@ function App() {
   };
   type TShirt = Color & Price;
   const tShirt: TShirt = {
-    color: "black",
+    color: 'black',
     price: 2980,
   };
 
@@ -58,12 +55,12 @@ function App() {
     title: string;
   }
   interface Magazine extends Book {
-    cycle: "daily" | "weekly" | "monthly" | "yearly";
+    cycle: 'daily' | 'weekly' | 'monthly' | 'yearly';
   }
   const jump: Magazine = {
     page: 300,
-    title: "週刊少年ジャンプ",
-    cycle: "weekly",
+    title: '週刊少年ジャンプ',
+    cycle: 'weekly',
   };
 
   // typeからもinterfaceで継承可能
@@ -77,12 +74,12 @@ function App() {
   }
   const cotrip: HandBook = {
     page: 120,
-    title: "ことりっぷ",
-    theme: "旅行",
+    title: 'ことりっぷ',
+    theme: '旅行',
   };
 
   // https://gist.github.com/kenmori/8cea4b82dd12ad31f565721c9c456662
-  const greeting = (value: string) => "hello!" + value;
+  const greeting = (value: string) => 'hello!' + value;
 
   interface A {
     bar: string;
@@ -90,7 +87,7 @@ function App() {
   }
   // Aのプロパティをオプショナルに
   const A: Partial<A> = {
-    bar: "bar",
+    bar: 'bar',
     baz: 1234,
   };
 
@@ -100,7 +97,7 @@ function App() {
   }
   // Bのプロパティを必須に
   const B: Required<B> = {
-    name: "name",
+    name: 'name',
     age: 1234,
   };
 
@@ -110,8 +107,8 @@ function App() {
     brother: boolean;
   }
   // Cのプロパティからname,brotherを取得したtype
-  const C: Pick<C, "name" | "brother"> = {
-    name: "name",
+  const C: Pick<C, 'name' | 'brother'> = {
+    name: 'name',
     brother: true,
   };
 
@@ -121,8 +118,8 @@ function App() {
     brother: boolean;
   }
   // Dのプロパティからageを除いたtype
-  const D: Omit<D, "age"> = {
-    name: "name",
+  const D: Omit<D, 'age'> = {
+    name: 'name',
     brother: true,
   };
 
@@ -149,7 +146,7 @@ function App() {
   }
   type FPN = FunctionPropertyNames<Part>; // "updatePart"
   type NPN = NonFunctionPropertyNames<Part>; // "id" | "name" | "subparts"
-  type ONP = Pick<Part, "updatePart">;
+  type ONP = Pick<Part, 'updatePart'>;
   type FPS = FunctionProperties<Part>; // { updatePart(newName: string): void }
   type NPS = NonFunctionProperties<Part>; // { id: number, name: string, subparts: Part[] }
 
@@ -177,7 +174,7 @@ function App() {
     [P in K]: T[P];
   };
 
-  type Foo = CustomPick<Todo, "title">;
+  type Foo = CustomPick<Todo, 'title'>;
 
   type AA = {
     title: string;
@@ -205,11 +202,11 @@ function App() {
     readonly [K in keyof T]: T[K];
   };
   const todo: MyReadonly<Todo> = {
-    title: "fwfhwi",
-    description: "fwfhwi",
+    title: 'fwfhwi',
+    description: 'fwfhwi',
     completed: false,
     meta: {
-      author: "fwfhwi",
+      author: 'fwfhwi',
     },
   };
 
@@ -225,11 +222,11 @@ function App() {
     piyo: number;
   };
   const toString: ToAllString<AllNumber> = {
-    hoge: "21",
-    fuga: "89",
-    piyo: "hoi",
+    hoge: '21',
+    fuga: '89',
+    piyo: 'hoi',
   };
-  toString.hoge = "12345";
+  toString.hoge = '12345';
 
   type MappedOptionalA<T> = {
     [P in keyof T]-?: T[P];
@@ -249,30 +246,30 @@ function App() {
   // }
 
   const UserB: { [P in keyof MaybeUser]-?: MaybeUser[P] } = {
-    id: "1124",
-    name: "jweofiew",
+    id: '1124',
+    name: 'jweofiew',
     age: 12345,
   };
 
   const UserC: { readonly [P in keyof MaybeUser]: MaybeUser[P] } = {
-    id: "123123",
-    name: "1234",
+    id: '123123',
+    name: '1234',
     age: 13243,
   };
 
   type TupleToObject<T extends readonly any[]> = {
     [P in T[number]]: P;
   };
-  const tuple = ["tesla", "model 3", "model X", "model Y"] as const;
+  const tuple = ['tesla', 'model 3', 'model X', 'model Y'] as const;
   type result = TupleToObject<typeof tuple>;
 
-  type First<T extends any[]> = T["length"] extends 0 ? never : T[0];
+  type First<T extends any[]> = T['length'] extends 0 ? never : T[0];
 
-  type arr = First<["a", "b", "c"]>;
+  type arr = First<['a', 'b', 'c']>;
 
   type MyExclude<T, U> = T extends U ? never : T;
-  type IsA = MyExclude<"a" | "b" | "c", "a">;
-  type IsAA = Exclude<"a" | "b" | "c", "a">;
+  type IsA = MyExclude<'a' | 'b' | 'c', 'a'>;
+  type IsAA = Exclude<'a' | 'b' | 'c', 'a'>;
 
   interface PersonA {
     firstName: string;
@@ -285,7 +282,7 @@ function App() {
   };
   type PersonA3 = Partial<PersonA> & { from: string };
   const brian: PersonA3 = {
-    from: "Tokyo",
+    from: 'Tokyo',
   };
 
   interface PersonB {
@@ -294,22 +291,22 @@ function App() {
   }
 
   const foef: Required<PersonB> = {
-    firstName: "hwfjeoi",
-    lastName: "fjwoeifw",
+    firstName: 'hwfjeoi',
+    lastName: 'fjwoeifw',
   };
   type deleteOptional<T> = {
     [K in keyof T]-?: T[K];
   };
   const foerj: deleteOptional<PersonB> = {
-    firstName: "hfwihef",
-    lastName: "hishfiew",
+    firstName: 'hfwihef',
+    lastName: 'hishfiew',
   };
 
   interface PersonC {
     name: string;
   }
   type PersonList = Record<number, PersonC>;
-  const list: PersonList = { 0: { name: "Taro" }, 1: { name: "Jiro" } };
+  const list: PersonList = { 0: { name: 'Taro' }, 1: { name: 'Jiro' } };
 
   interface PersonD {
     firstName: string;
@@ -317,19 +314,19 @@ function App() {
     age: number;
   }
 
-  const tom: Pick<PersonD, "firstName" | "lastName"> = {
-    firstName: "fjweofi",
-    lastName: "fjwoefjowi",
+  const tom: Pick<PersonD, 'firstName' | 'lastName'> = {
+    firstName: 'fjweofi',
+    lastName: 'fjwoefjowi',
   };
   type MyPick<T, K extends keyof T> = {
     [P in K]: T[P];
   };
 
-  type wfjoweif = MyPick<PersonD, "firstName" | "lastName">;
+  type wfjoweif = MyPick<PersonD, 'firstName' | 'lastName'>;
 
-  const sally: MyPick<PersonD, "firstName" | "lastName"> = {
-    firstName: "jorfjweoi",
-    lastName: "fwjeofiwej",
+  const sally: MyPick<PersonD, 'firstName' | 'lastName'> = {
+    firstName: 'jorfjweoi',
+    lastName: 'fwjeofiwej',
   };
 
   interface TypeA {
@@ -359,6 +356,23 @@ function App() {
   type ExtractedType2 = Extract<string, number>;
   type ExtractedType3 = Extract<string, string>;
   type ExtractedType4 = Extract<string | number | boolean, string | boolean>;
+
+  console.log('null == undefined', null == undefined);
+  console.log("null == ''", null == '');
+  const foo = (arg: string | null | undefined) => {
+    if (arg != null) {
+      console.log(arg);
+    }
+  };
+
+  const fooo = (): { a: number; b?: number } => {
+    return { a: 1 };
+  };
+  console.log(fooo());
+
+  const hasName = 12345678;
+  console.log(hasName);
+  console.log(!!hasName);
 
   return (
     <main className={styles.App}>
