@@ -285,10 +285,78 @@ function App() {
     from: 'Tokyo',
   };
 
+  const f: (foo: string) => number = func;
+
+  function func(arg: string): number {
+    return Number(arg);
+  }
+
+  type aa = (foo: string) => number;
+  const aaaa: aa = (foo) => {
+    return Number(foo);
+  };
+  const bbbb = aaaa;
+  aaaa('fwfwe');
+
+  const f1: (foo: string) => number = (foo) => {
+    return Number(foo);
+  };
+  const f2: (foo: string, bar: number) => void = f1;
+
+  console.log(f2('1', 1));
+  console.log(f1('1'));
+
+  const changeTitle2: (foo: string) => boolean = changeTitle;
+  function changeTitle(title: string): boolean {
+    if (typeof title === 'string') {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  const ww: void = undefined;
+  // const qq: undefined = ww;
+
+  interface MyObj {
+    foo: string;
+    bar: number;
+  }
+  interface MyObj2 {
+    foo: string;
+  }
+  const a: (obj: MyObj2) => void = () => {};
+  const b: (obj: MyObj) => void = a;
+  // a({ foo: 'fwf' });
+  // b({ foo: 'fwf' });
+
   interface PersonB {
     firstName?: string;
     lastName?: string;
   }
+
+  interface FJO<S, T> {
+    foo: S;
+    bar: T;
+  }
+
+  const fjo: FJO<number, string> = {
+    foo: 3,
+    bar: 'fe',
+  };
+
+  type jweo = [number, string?];
+  // type jweo2 = [number?, string]
+
+  // type Args = [string, number, boolean];
+  // const fje = (...args: Args) => args[1];
+  // const v = fje('foo', 2, true);
+  // console.log('v:' + v);
+
+  type Args = [string, ...number[]];
+  const jfowe = (f: string, ...args: Args) => args[0];
+  console.log(jfowe('foo', 'fojwifw'));
+  console.log(jfowe('fojwefijw', 'fwjoefwe', 1, 2, 3));
 
   const foef: Required<PersonB> = {
     firstName: 'hwfjeoi',
@@ -297,10 +365,44 @@ function App() {
   type deleteOptional<T> = {
     [K in keyof T]-?: T[K];
   };
-  const foerj: deleteOptional<PersonB> = {
-    firstName: 'hfwihef',
-    lastName: 'hishfiew',
+  // const foerj: deleteOptional<PersonB> = {
+  //   firstName: 'hfwihef',
+  //   lastName: 'hishfiew',
+  // };
+  type StringNumber = Record<string, number>;
+  const value: StringNumber = { a: 1, b: 2, c: 3 };
+
+  type asdf = Record<number, string>;
+  const asdgg: asdf = { '1': 'few', '2': 'few', '3': 'few' };
+
+  const fjfi = (str: string, num: number, b: boolean) => args[0] + args[1];
+  const args: [string, number, boolean] = ['foo', 3, true];
+  console.log(fjfi(...args));
+
+  interface Hogefjwe {
+    foo: string;
+    bar: number;
+  }
+  interface Piyofwoi {
+    foo: number;
+    baz: boolean;
+  }
+
+  type fjweo = Hogefjwe | Piyofwoi;
+
+  function getHoge(obj: fjweo): string | number {
+    return obj.foo;
+  }
+
+  console.log(getHoge({ foo: '1fwwefwe', bar: 2 }));
+
+  const jfwo: () => void = () => {
+    declare const fwoeif: never;
   };
+
+  type jiji = [string, ...number[]];
+  const fufu = (f: string, ...argsff: jiji) => argsff;
+  console.log(fufu('fo', 'fw', 1, 111, 1));
 
   interface PersonC {
     name: string;
