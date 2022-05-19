@@ -33,4 +33,4 @@ Reference sites ↓<br>
   https://teratail.com/questions/276695
 
 - TypeScript Deep Dive
-  https://typescript-jp.gitbook.io/deep-dive/recap/equality
+  https://typescript-jp.gitbook.io/deep-dive/
